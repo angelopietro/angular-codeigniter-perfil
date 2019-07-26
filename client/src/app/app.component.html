@@ -1,0 +1,19 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+    <span>Meu Perfil</span>
+    <span></span>
+    <div fxLayoutGap="20px">
+        <a *ngIf="!authService.isAuthenticated" mat-stroked-button routerLink="home/login"
+            routerLinkActive="mat-accent">Login</a>
+        <a *ngIf="!authService.isAuthenticated" mat-stroked-button routerLink="home/cadastro"
+            routerLinkActive="mat-accent">Cadastro</a>
+        <button *ngIf="authService.isAuthenticated" mat-stroked-button [matMenuTriggerFor]="afterMenu"
+            routerLinkActive="mat-accent"><i class="material-icons">face</i> Minha Conta</button>
+        <mat-menu #afterMenu="matMenu" xPosition="after">
+            <a *ngIf="authService.isAuthenticated" mat-menu-item routerLink="dashboard/perfil">Meus dados</a>
+            <a *ngIf="authService.isAuthenticated" mat-menu-item (click)="authService.onLogout()">Sair</a>
+        </mat-menu>
+    </div>
+</mat-toolbar>
+
+<simple-notifications class="notify"></simple-notifications>
+<router-outlet></router-outlet>

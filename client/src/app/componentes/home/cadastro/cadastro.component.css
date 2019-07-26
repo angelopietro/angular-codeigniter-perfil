@@ -1,0 +1,17 @@
+mat-card{
+    margin:20px;
+}
+ 
+.radio-group-genero {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .radio-button-genero {
+    margin: 5px;
+  }
+
+  .pass-bar{
+      margin-bottom: -25px;
+      position: relative;      
+  }

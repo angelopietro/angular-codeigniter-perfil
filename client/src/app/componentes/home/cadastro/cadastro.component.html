@@ -1,0 +1,209 @@
+<div class="container">
+<div class="row">
+
+<form [(formGroup)]="formRegister">
+<mat-horizontal-stepper [linear]="isLinear" formArrayName="formArray" #stepper>
+
+<!-- DADOS PESSOAIS -->
+
+<mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
+
+    <ng-template matStepLabel>DADOS PESSOAIS</ng-template>
+    <mat-card class="col-md-12 float-left">
+        <mat-card-header>
+            <mat-card-title>Dados Pessoais</mat-card-title>
+            <mat-card-subtitle>Informe seus dados para realizar seu cadastro com sucesso!</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+
+            <div class="form-row">
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="col-md-12">
+                        <mat-label>Nome Completo</mat-label>
+                        <input matInput placeholder="Nome" formControlName="nome">
+                        <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[0].controls.nome?.errors?.required">Você deve digitar o nome</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="col-md-12">
+                        <mat-label>CPF</mat-label>
+                        <input matInput placeholder="Cpf" formControlName="cpf" mask="000.000.000-00">
+                        <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[0].controls.cpf?.errors?.required">Você deve digitar o CPF</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="col-md-12">
+                        <mat-label>Data de Nascimento</mat-label>
+                        <input matInput placeholder="Data de Nascimento"
+                            formControlName="data_nasc" [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker color="primary"></mat-datepicker>
+                        <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[0].controls.data_nasc?.errors?.required">Entre com a data de Nascimento</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="col-md-12">
+                        <mat-label>Telefone</mat-label>
+                        <input matInput placeholder="Telefone" formControlName="telefone" mask="(00) 00000-0000">
+                        <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[0].controls.telefone?.errors?.required">Você deve digitar o Telefone</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <mat-label>Gênero</mat-label>
+                        <mat-radio-group aria-label="Gênero(Sexo)" class="radio-group-genero" formControlName="genero">
+                            <mat-radio-button value="F" class="radio-button-genero">Feminino</mat-radio-button>
+                            <mat-radio-button value="M" class="radio-button-genero" color="primary">Masculino</mat-radio-button>
+                            <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[0].controls.genero?.errors?.required"><small>Você deve selecionar um Gênero</small></mat-error>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-button matStepperNext type="button" (click)="onNextDados()" class="btn btn-success active">CONTINUAR</button>
+        </mat-card-actions>
+
+    </mat-card> 
+
+</mat-step>
+
+<!-- DADOS DE ENDEREÇO -->
+
+<mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
+
+    <ng-template matStepLabel>MEU ENDEREÇO</ng-template>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Endereço</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="form-row">
+
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="col-md-12">
+                        <mat-label>Endereço</mat-label>
+                        <input matInput placeholder="Endereço" formControlName="endereco">
+                        <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[1].controls.endereco?.errors?.required">Você deve digitar seu Endereço</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="col-md-12">
+                        <mat-label>Bairro</mat-label>
+                        <input matInput placeholder="Bairro" formControlName="bairro">
+                        <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[1].controls.bairro?.errors?.required">Você deve digitar o Bairro </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="col-md-12">
+                        <mat-label>Complemento</mat-label>
+                        <input matInput placeholder="Complemento" formControlName="complemento">
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="col-md-12">
+                        <mat-label>Estado</mat-label>
+                        <mat-select placeholder="Selecione um Estado" formControlName="uf" (selectionChange)="onChangeUf($event)">
+                            <mat-option value="0" selected>Selecione um Estado</mat-option>
+                            <mat-option *ngFor="let uf of estados" value="{{ uf.id }}">{{ uf.uf }} - {{ uf.nome }}</mat-option>
+                        </mat-select>
+                        <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[1].controls.uf?.errors?.required">
+                            Selecione um
+                            estado
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="col-md-12">
+                        <mat-label>Cidade</mat-label>                                       
+                        <mat-select placeholder="Selecione uma Cidade" formControlName="cidade">
+                            <mat-option value="0">Selecione uma Cidade</mat-option>
+                            <mat-option *ngFor="let lcidade of cidades" value="{{ lcidade.id }}">{{ lcidade.nome }}</mat-option>
+                        </mat-select>
+                        <mat-progress-bar mode="indeterminate" *ngIf="isLoadingCidades"></mat-progress-bar>
+                        <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[1].controls.cidade?.errors?.required">
+                            Selecione uma Cidade
+                        </mat-error>                                        
+                    </mat-form-field>
+                </div>                                  
+                
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="col-md-12">
+                        <mat-label>CEP</mat-label>
+                        <input matInput placeholder="CEP" formControlName="cep" mask="00.000-000">
+                        <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[1].controls.cep?.errors?.required">Você deve digitar o CEP</mat-error></mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-button matStepperPrevious type="button" class="btn btn-secondary active">VOLTAR</button>
+            <button mat-button matStepperNext type="button" (click)="onNextDados()" class="btn btn-success active">CONTINUAR</button>
+        </mat-card-actions>
+
+    </mat-card>
+</mat-step>
+
+<!-- DADOS DE ACESSO -->
+
+<mat-step formGroupName="2" [stepControl]="formArray?.get([2])">
+    <ng-template matStepLabel>DADOS DE ACESSO</ng-template>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Dados para Acesso</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="form-row">
+
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="col-md-6">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Email" formControlName="email" type="email" ngModel email>
+                        <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[2].controls.email?.errors?.required || formArray.controls[2].controls.email?.status == 'INVALID'">Você deve digitar um email válido</mat-error>
+                        <mat-icon matSuffix>drafts</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="pass-bar col-md-6">
+                        <mat-label>Senha</mat-label>
+                        <input matInput formControlName="senha" placeholder="Senha" [type]="hide ? 'password' : 'text'" [(ngModel)]="senha">
+                        <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}} </mat-icon>
+                        <mat-error class="text-right" *ngIf="isSubmitted && formArray.controls[2].controls.senha?.errors?.required || formArray.controls[2].controls.senha?.status == 'INVALID'">
+                            Você deve digitar uma senha com o mínimo {{digitosSenha}} dígitos</mat-error>
+                    </mat-form-field>
+                    <ng2-password-strength-bar [passwordToCheck]="senha" [barColors]="nivelSenha">
+                    </ng2-password-strength-bar>
+                </div>
+
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button matStepperPrevious type="button"  class="btn btn-secondary active">VOLTAR</button>
+            <button mat-button (click)="onSave()" class="btn btn-success active">FINALIZAR MEU CADASTRAR</button>
+            <button mat-button type="button" (click)="stepper.reset()">CANCELAR</button>
+        </mat-card-actions>
+    </mat-card>
+</mat-step>
+
+</mat-horizontal-stepper>
+</form>
+
+
+<ngx-loading [show]="isLoading"></ngx-loading>
+
+</div>
+</div>

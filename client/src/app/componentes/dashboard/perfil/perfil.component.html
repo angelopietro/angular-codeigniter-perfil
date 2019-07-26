@@ -1,0 +1,222 @@
+<div class="container">
+    <div class="row">
+
+        <form [(formGroup)]="formUpdateProfile">
+
+            <mat-card class="col-md-12">
+                <mat-card-header>
+                    <mat-card-title>Dados Pessoais</mat-card-title>
+                    <mat-card-subtitle>Informe seus dados para realizar seu cadastro com sucesso!</mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-content>
+
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <mat-form-field appearance="outline" class="col-md-12">
+                                <mat-label>Nome Completo</mat-label>
+                                <input type="hidden" formControlName="id" [(ngModel)]="dadosPerfil.id">
+                                <input matInput placeholder="Nome" formControlName="nome"
+                                    [(ngModel)]="dadosPerfil.nome">
+                                <mat-error class="text-right"
+                                    *ngIf="isSubmitted && formControls.nome?.errors?.required">Você deve digitar o nome
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" class="col-md-12">
+                                <mat-label>CPF</mat-label>
+                                <input matInput placeholder="Cpf" formControlName="cpf" mask="000.000.000-00"
+                                    [(ngModel)]="dadosPerfil.cpf">
+                                <mat-error class="text-right" *ngIf="isSubmitted && formControls.cpf?.errors?.required">
+                                    Você deve digitar o CPF</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" class="col-md-12">
+                                <mat-label>Data de Nascimento</mat-label>
+                                <input matInput placeholder="Data de Nascimento" formControlName="data_nasc"
+                                    [matDatepicker]="picker" [(ngModel)]="dadosPerfil.data_nasc">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker color="primary"></mat-datepicker>
+                                <mat-error class="text-right"
+                                    *ngIf="isSubmitted && formControls.data_nasc?.errors?.required">Entre com a data de
+                                    Nascimento</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" class="col-md-12">
+                                <mat-label>Telefone</mat-label>
+                                <input matInput placeholder="Telefone" formControlName="telefone" mask="(00) 00000-0000"
+                                    [(ngModel)]="dadosPerfil.telefone">
+                                <mat-error class="text-right"
+                                    *ngIf="isSubmitted && formControls.telefone?.errors?.required">Você deve digitar o
+                                    Telefone</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <mat-label>Gênero</mat-label><br>
+                                <mat-radio-group aria-label="Gênero(Sexo)" class="radio-group-genero"
+                                    formControlName="genero" [(ngModel)]="dadosPerfil.genero">
+                                    <mat-radio-button value="F" class="radio-button-genero">Feminino</mat-radio-button>
+                                    <mat-radio-button value="M" class="radio-button-genero" color="primary">Masculino
+                                    </mat-radio-button>
+                                    <mat-error class="text-right"
+                                        *ngIf="isSubmitted && formControls.genero?.errors?.required"><small>Você deve
+                                            selecionar um Gênero</small></mat-error>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                    </div>
+
+                </mat-card-content>
+
+
+            </mat-card>
+
+
+
+            <!-- DADOS DE ENDEREÇO -->
+
+
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Endereço</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="form-row">
+
+                        <div class="col-md-12">
+                            <mat-form-field appearance="outline" class="col-md-12">
+                                <mat-label>Endereço</mat-label>
+                                <input matInput placeholder="Endereço" formControlName="endereco"
+                                    [(ngModel)]="dadosPerfil.endereco">
+                                <mat-error class="text-right"
+                                    *ngIf="isSubmitted && formControls.endereco?.errors?.required">Você deve digitar seu
+                                    Endereço</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" class="col-md-12">
+                                <mat-label>Bairro</mat-label>
+                                <input matInput placeholder="Bairro" formControlName="bairro"
+                                    [(ngModel)]="dadosPerfil.bairro">
+                                <mat-error class="text-right"
+                                    *ngIf="isSubmitted && formControls.bairro?.errors?.required">Você deve digitar o
+                                    Bairro </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" class="col-md-12">
+                                <mat-label>Complemento</mat-label>
+                                <input matInput placeholder="Complemento" formControlName="complemento"
+                                    [(ngModel)]="dadosPerfil.complemento">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="col-md-12">
+                                <mat-label>Estado</mat-label>
+                                <mat-select placeholder="Selecione um Estado" formControlName="estado"
+                                    (selectionChange)="onChangeUf($event)" [(ngModel)]="dadosPerfil.estado">
+                                    <mat-option value="0" selected>Selecione um Estado</mat-option>
+                                    <mat-option *ngFor="let uf of estados" value="{{ uf.id }}">{{ uf.uf }} -
+                                        {{ uf.nome }}</mat-option>
+                                </mat-select>
+                                <mat-error class="text-right" *ngIf="isSubmitted && formControls.uf?.errors?.required">
+                                    Selecione um estado
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="col-md-12">
+                                <mat-label>Cidade</mat-label>
+                                <mat-select placeholder="Selecione uma Cidade" formControlName="cidade"
+                                    [(ngModel)]="dadosPerfil.cidade">
+                                    <mat-option value="0">Selecione uma Cidade</mat-option>
+                                    <mat-option *ngFor="let lcidade of cidades" value="{{ lcidade.id }}">
+                                        {{ lcidade.nome }}</mat-option>
+                                </mat-select>
+                                <mat-progress-bar mode="indeterminate" *ngIf="isLoadingCidades"></mat-progress-bar>
+                                <mat-error class="text-right"
+                                    *ngIf="isSubmitted && formControls.cidade?.errors?.required">
+                                    Selecione uma Cidade
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="col-md-12">
+                                <mat-label>CEP</mat-label>
+                                <input matInput placeholder="CEP" formControlName="cep" mask="00.000-000"
+                                    [(ngModel)]="dadosPerfil.cep">
+                                <mat-error class="text-right" *ngIf="isSubmitted && formControls.cep?.errors?.required">
+                                    Você deve digitar o CEP</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+
+
+            </mat-card>
+
+
+            <!-- DADOS DE ACESSO -->
+
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Dados para Acesso</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="form-row">
+
+                        <div class="col-md-12">
+                            <mat-form-field appearance="outline" class="col-md-6">
+                                <mat-label>Email</mat-label>
+                                <input matInput placeholder="Email" formControlName="email" type="email" ngModel email
+                                    [(ngModel)]="dadosPerfil.email">
+                                <mat-error class="text-right"
+                                    *ngIf="isSubmitted && formControls.email?.errors?.required || formControls.email?.status == 'INVALID'">
+                                    Você deve digitar um email válido</mat-error>
+                                <mat-icon matSuffix>drafts</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-12">
+                            <mat-form-field appearance="outline" class="pass-bar col-md-6">
+                                <mat-label>Senha</mat-label>
+                                <input matInput formControlName="senha" placeholder="Senha"
+                                    [type]="hide ? 'password' : 'text'" [(ngModel)]="senha">
+                                <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}}
+                                </mat-icon>
+                                <mat-error class="text-right"
+                                    *ngIf="isSubmitted && formControls.senha?.errors?.required || formControls.senha?.status == 'INVALID'">
+                                    Você deve digitar uma senha com o mínimo {{digitosSenha}} dígitos</mat-error>
+                            </mat-form-field>
+                            <ng2-password-strength-bar [passwordToCheck]="senha" [barColors]="nivelSenha">
+                            </ng2-password-strength-bar>
+                        </div>
+
+                    </div>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button (click)="onSave()" class="btn btn-success active">ATUALIZAR MEUS DADOS</button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+
+
+        <ngx-loading [show]="isLoading"></ngx-loading>
+
+    </div>
+</div>
